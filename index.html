@@ -5,6 +5,13 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "ce7e45561d5c4b7f9b3aac23378476c9"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
   <title>Lab 9</title>
 
   <style>
@@ -95,13 +102,134 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
+
+      try {
+        eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch(err) {
+        throw new MyError('Input has to be number o_0');
+      } finally {
+        console.log('hi');
+      }
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
+    class MyError extends Error {
+      constructor(msg) {
+        super(msg);
+        this.name = 'MyError';
+      }
+    }
+
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    // Log
+    errorBtns[0].addEventListener('click', () => {
+      console.log('Hello!');
+    });
+
+    // Error
+    errorBtns[1].addEventListener('click', () => {
+      console.error('This is an error');
+    });
+
+    // Count
+    errorBtns[2].addEventListener('click', () => {
+      console.count('counter');
+    });
+
+    // Warn
+    errorBtns[3].addEventListener('click', () => {
+      console.warn('This is a warning');
+    });
+
+    // Assert
+    errorBtns[4].addEventListener('click', () => {
+      const a = 3;
+      const b = 6;
+      reason = 'Sum is less than 10';
+      console.assert(a + b > 10, {a, b, reason});
+    });
+
+    // Clear
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+
+    // Dir
+    errorBtns[6].addEventListener('click', () => {
+      const obj = {
+        size: 'big',
+        color: 'blue'
+      }
+      console.dir(obj);
+    });
+
+    // Dirxml
+    errorBtns[7].addEventListener('click', () => {
+      const obj = document.querySelector('section');
+      console.dirxml(obj);
+    });
+
+    // Group Start
+    errorBtns[8].addEventListener('click', () => {
+      console.group('This is a group');
+    });
+
+    // Group End
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd('This is a group');
+    });
+
+    // Table
+    errorBtns[10].addEventListener('click', () => {
+      const table = [
+        {
+          name: 'Alice',
+          pid: 'A12345678',
+          graduated: 'Yes',
+        },
+        {
+          name: 'Bob',
+          pid: 'B11111111',
+          graduated: 'No',
+        }
+      ];
+      console.table(table);
+    });
+
+    // Start Timer
+    errorBtns[11].addEventListener('click', () => {
+      console.time('timer');
+    });
+
+    // End Timer
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd('timer');
+    });
+
+    // Trace
+    errorBtns[13].addEventListener('click', () => {
+      function func1() {
+        function func2() {
+          function func3() {
+            console.trace();
+          }
+          func3();
+        }
+        func2();
+      }
+      func1();
+    });
+
+    // Global Error
+    errorBtns[14].addEventListener('click', () => {
+      window.onerror = function (errorMsg, url, lineNumber) {
+        console.error(errorMsg + ' boom at ' + url + lineNumber);
+        return true;
+      }
+      eval('2a + 2');
+    });
+
   </script>
 </body>
 
